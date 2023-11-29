@@ -10,15 +10,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module
 class NetworkModule {
 
-    //https://jsonplaceholder.typicode.com/photos
-
     @Provides
     fun provideRetrofitInstance() : Retrofit{
         return Retrofit.Builder()
-            .baseUrl("https://jsonplaceholder.typicode.com/")
+            .baseUrl("https://api.themoviedb.org/3/movie/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
 }

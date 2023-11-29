@@ -1,7 +1,7 @@
 package com.example.daggerretro
 
 import android.app.Application
-import dagger.android.DaggerActivity
+
 
 
 class BaseActavity :Application(){

@@ -2,42 +2,54 @@ package com.example.daggerretro.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.daggerretro.model.JsonData
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.example.daggerretro.model.movie.Movies
+import com.example.daggerretro.model.movie.Result
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private val mainRepository: MainRepository) : ViewModel() {
 
-    private val tag:String=MainViewModel::class.java.name
-
-    private val dataMutableLiveData=MediatorLiveData<Resource<List<JsonData>>>()
+    private val movieMutableLiveData=MutableLiveData<List<Result>>()
     private val compositeDisposable=CompositeDisposable()
+    private val mMutableLiveData = MediatorLiveData<Resource<List<Result>>>()
+
 
     init {
-        loadDataList()
+        loadPopularMovie()
+
     }
 
-    fun getDataList(): LiveData<Resource<List<JsonData>>> {
-       return dataMutableLiveData
+
+    fun getPopularMovieList():LiveData<List<Result>>{
+        return movieMutableLiveData
     }
 
-    fun loadDataList() {
-       var disposable = mainRepository.getAllData()
-           .subscribeOn(Schedulers.io())
-           .observeOn(AndroidSchedulers.mainThread())
-           .doOnSubscribe {
-               dataMutableLiveData.value=Resource.loading()
-           }
-           .subscribe ({
-               dataMutableLiveData.value=Resource.success(it)
-           },{
-               dataMutableLiveData.value=Resource.error(it.localizedMessage,null)
-           })
-        compositeDisposable.add(disposable)
+    fun getMovieData():LiveData<Resource<List<Result>>>{
+        return mMutableLiveData
+    }
+
+    fun loadPopularMovie(){
+         mainRepository.getPopularMovies().enqueue(object:Callback<Movies>{
+             override fun onResponse(call: Call<Movies>, response: Response<Movies>) {
+                 if (response.body()!=null){
+                     movieMutableLiveData.value= response.body()!!.results
+
+                     mMutableLiveData.value=Resource.success(response.body()!!.results)
+                 }else{
+                     mMutableLiveData.value=Resource.loading()
+                 }
+             }
+             override fun onFailure(call: Call<Movies>, t: Throwable) {
+                mMutableLiveData.value=Resource.error(t.message.toString(),null)
+             }
+
+
+         })
     }
 
 

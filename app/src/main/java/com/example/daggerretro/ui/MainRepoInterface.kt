@@ -1,9 +1,8 @@
 package com.example.daggerretro.ui
 
-import com.example.daggerretro.model.JsonData
-import io.reactivex.Flowable
+import com.example.daggerretro.model.movie.Movies
+import retrofit2.Call
 
 interface MainRepoInterface {
-
-    fun getAllData():Flowable<List<JsonData>>
+    fun getPopularMovies(): Call<Movies>
 }

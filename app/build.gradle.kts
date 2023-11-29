@@ -53,9 +53,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-
     //Material Design
-    //def material_version = "1.2.0-alpha02"
     implementation ("com.google.android.material:material:1.2.0-alpha02")
 
     //Dagger 2
@@ -63,20 +61,16 @@ dependencies {
     implementation ("com.google.dagger:dagger-android-support:2.20")
     kapt ("com.google.dagger:dagger-android-processor:2.20")
     kapt ("com.google.dagger:dagger-compiler:2.20")
-//    api ("com.google.dagger:dagger:2.27")
-//    kapt ("com.google.dagger:dagger-compiler:2.27")
 
     //Retrofit 2
     implementation ("com.squareup.retrofit2:adapter-rxjava2:2.7.2")
     implementation ("com.squareup.retrofit2:converter-gson:2.7.2")
+    implementation ("com.google.code.gson:gson:2.8.6")
 
     //RxJava & RxAndroid
-   // def rx_java = "2.2.16"
     implementation ("io.reactivex.rxjava2:rxjava:2.2.16")
     implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
 
-
-   // def lifecycle_version = "2.2.0"
     // ViewModel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
     // LiveData
